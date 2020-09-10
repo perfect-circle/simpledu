@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask_migrate import Migrate
 from simpledu.config import configs
 from simpledu.models import db, Course
 

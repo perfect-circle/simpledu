@@ -32,7 +32,7 @@ class User(Base):
     email = db.Column(db.String(64),unique=True,index=True,nullable=False)
     # 默认情况下，sqlalchemy会以字段名来定义列名，但这里是_password,所以明确指定数据库列名为ppassword
     _password = db.Column('password',db.String(256),nullable=False)
-    role = db.Column(db.SmallInteger,db.String(356),default=ROLE_USER)
+    role = db.Column(db.SmallInteger,default=ROLE_USER)
     job = db.Column(db.String(64))
     publish_courses = db.relationship('Course')
 

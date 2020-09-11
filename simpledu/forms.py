@@ -6,7 +6,8 @@ from simpledu.models import db, User
 
 class RegisterForm(FlaskForm):
     username = StringField('用户名', validators=[DataRequired(),Length(3,24)])
-    email = StringField("邮箱",validators=[DataRequired()])
+    email = StringField("邮箱",validators=[DataRequired(), Email
+        ("请输入合法的email地址")])
     password = PasswordField('密码',validators=[DataRequired(),
         Length(6,24)])
     repeat_password = PasswordField('重复密码',validators=
@@ -31,9 +32,9 @@ class RegisterForm(FlaskForm):
             raise ValidationError("邮箱已经存在")
 
 class LoginForm(FlaskForm):
-    email = StringField("邮箱",validators=[DataRequired()])
+    email = StringField("邮箱",validators=[DataRequired(),Email()])
     password = PasswordField("密码", validators=[DataRequired(),
-        Length(6,24)], message="密码长度要在6～24个字符之间")
+        Length(6,24)])
     remember_me = BooleanField('记住我')
     submit = SubmitField("提交")
 

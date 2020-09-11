@@ -16,10 +16,18 @@
 			<label>{{ field() }} {{ field.label.text }}</label>
 		</div>
 		{% else %}
-		<div class="form-grop">
-			{{ field.label }} {{ field(class="form-control") }}
-		</div>
+		<!-- 当errors 不为空，添加has-error 类，这样的输入框就变成红色了 -->
+		<div class="form-grop {% if field.errors %}has-error{% endif %}">
+			{{ field.label }} {{ field(class='form-control') }}
+		<!-- 当error不为空，遍历显示每一个error -->
+			{% if field.errors %}
+				{% for error in field.errors %}
+				<!-- 根据Bootstrap样式错误信息要显示先类为 help-block的span标签中-->
+					<span class="help-block">{{ error }}</span>
+				{% endfor %}
+			{% endif %}
 		{% endif %}
+		</div>
 	{% endfor %}
 </form>
 {% endmacro %}

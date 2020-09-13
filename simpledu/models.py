@@ -33,7 +33,7 @@ class User(Base, UserMixin):
     # 默认情况下，sqlalchemy会以字段名来定义列名，但这里是_password,所以明确指定数据库列名为ppassword
     _password = db.Column('password',db.String(256),nullable=False)
     role = db.Column(db.SmallInteger,default=ROLE_USER)
-    job = db.Column(db.String(64))
+    job = db.Column(db.String(128))
     publish_courses = db.relationship('Course')
 
     def __repr__(self):
@@ -68,5 +68,31 @@ class Course(Base):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), unique=True, index=True, nullable=False)
-    author_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'))
+    # 课程描述信息
+    image_url = db.Column(db.String(256))
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id',
+        ondelete='SET NULL'))
     author= db.relationship('User', uselist=False)
+    chapters = db.relationship('Chapter')
+
+    def __repr__(self):
+        return "<Course:{}>".format(self.name)
+
+class Chapter(Base):
+    __tablename__ = "chapter"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), unique=True, index=True)
+    description = db.Column(db.String(256))
+    # 课程视频的url地址
+    video_url = db.Column(db.String(256))
+    # 视频时长，格式:'30:15'、'1:15:20'
+    video_duration = db.Column(db.String(24))
+    # 关联到课程，并且课程删除级联删除相关章节
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id',
+        ondelete="CASCADE"))
+    course = db.relationship('Course',uselist=False)
+
+    def __repr__(self):
+        return "<Chapter:{}>".format(self.name)
+

@@ -1,9 +1,10 @@
 class BaseConfig(object):
     SECRET_KEY = 'makesure to set a very secret key'
+    INDEX_PER_PAGE = 9
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:123456@47.104.245.220:3306/simpledu?charset=utf8'
+    SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root@localhost/simpledu?charset=utf8'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 

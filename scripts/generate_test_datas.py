@@ -10,16 +10,16 @@ faker = Faker()
 # 生成一个教师用户
 def iter_users():
     yield User(
-            username='Jack Lee',
+            username='Jack_Lee',
             email='jacklee@example.com',
             password='zxcvbnm',
-            job='研发工程师'
+            job='Actor'
             )
 
 # 从datas读取实验楼课程数据，生成测试课程数据，将课程教师设置为
 # 生成的教师用户
 def iter_courses():
-    author = User.query.filter_by(username="Jack Lee").first()
+    author = User.query.filter_by(username="Jack_Lee").first()
     with open(os.path.join(os.path.dirname(__file__),'..','datas','courses.json')) as f:
         courses = json.load(f)
     for course in courses:
@@ -27,16 +27,16 @@ def iter_courses():
                 name=course['name'],
                 description=course['description'],
                 image_url=course['image_url'],
-                author=authonr
+                author=author
                 )
 
 def iter_chapters():
-    for courses in Course.query:
+    for course in Course.query:
         # 每个课程生成3～10个章节
         for i in range(randint(3,10)):
             yield Chapter(
                     # 使用faker生成一个句子作为章节名称
-                    name=fake.sentence(),
+                    name=faker.sentence(),
                     course=course,
                     # 所以章节的视频设置成楼楼+的某一个视频
                     video_url='https://labfile.oss.aliyuncs.com/courses/923/week2_mp4/2-1-1-mac.mp4',

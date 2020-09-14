@@ -1,6 +1,7 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from flask import url_for
 from werkzeug.security import generate_password_hash, \
         check_password_hash
 
@@ -68,6 +69,7 @@ class Course(Base):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), unique=True, index=True, nullable=False)
+    description = db.Column(db.String(256))
     # 课程描述信息
     image_url = db.Column(db.String(256))
     author_id = db.Column(db.Integer, db.ForeignKey('user.id',
@@ -77,6 +79,10 @@ class Course(Base):
 
     def __repr__(self):
         return "<Course:{}>".format(self.name)
+
+    @property
+    def url(self):
+        return url_for('course.detail',course_id=self.id)
 
 class Chapter(Base):
     __tablename__ = "chapter"
@@ -95,4 +101,3 @@ class Chapter(Base):
 
     def __repr__(self):
         return "<Chapter:{}>".format(self.name)
-

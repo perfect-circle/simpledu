@@ -4,7 +4,7 @@ class CoursesSpider(scrapy.Spider):
 
     name = 'courses'
 
-    start_urls = ['https://www.shiyanlou.com/bootcamp/']
+    start_urls = ['https://www.lanqiao.cn/bootcamp/']
 
     def parse(self, response):
         for course in response.css('div.col-3'):
